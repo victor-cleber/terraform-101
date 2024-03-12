@@ -63,7 +63,16 @@ resource "aws_route_table" "public_rt" {
     Name = "public_route_table"
     Project = "AWS_lab"
    }
+}
 
+resource "aws_route_table_association" "PublicSubnetRouteTableAssociation1"{
+  subnet_id = aws_subnet.public_subnet1.id
+  route_table_id = aws_route_table.public_rt.id
+}
+
+resource "aws_route_table_association" "PublicSubnetRouteTableAssociation2"{
+  subnet_id = aws_subnet.public_subnet2.id
+  route_table_id = aws_route_table.public_rt.id
 }
 
 resource "aws_subnet" "private_subnet1" {
@@ -75,7 +84,6 @@ resource "aws_subnet" "private_subnet1" {
     Project = "AWS_lab"
    }
 }
-
 
 resource "aws_subnet" "private_subnet2" {
   vpc_id     = aws_vpc.main.id
@@ -96,3 +104,29 @@ resource "aws_nat_gateway" "nat_gw"{
 
   depends_on = [aws_internet_gateway.ig_gw]
 }
+
+
+resource "aws_route_table" "private_rt" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.nat_gw.id
+  }
+
+  tags = {
+    Name = "public_route_table"
+    Project = "AWS_lab"
+   }
+}
+
+resource "aws_route_table_association" "PrivateSubnetRouteTableAssociation1"{
+  subnet_id = aws_subnet.private_subnet1.id
+  route_table_id = aws_route_table.private_rt.id
+}
+
+resource "aws_route_table_association" "PrivateSubnetRouteTableAssociation2"{
+  subnet_id = aws_subnet.private_subnet2.id
+  route_table_id = aws_route_table.private_rt.id
+}
+
