@@ -38,7 +38,6 @@ resource "aws_subnet" "public_subnet1" {
   }
 }
 
-
 resource "aws_subnet" "public_subnet2" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.0.2.0/24"
@@ -67,5 +66,33 @@ resource "aws_route_table" "public_rt" {
   tags = {
     Name = "public_route_table"
   }
+}
+
+resource "aws_subnet" "private_subnet1" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.3.0/24"
+
+  tags = {
+    Name = "private1"
+  }
+}
+
+
+resource "aws_subnet" "private_subnet2" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = "10.0.4.0/24"
+
+  tags = {
+    Name = "private2"
+  }
+}
+
+resource "aws_nat_gateway" "nat_gw"{
+  subnet_id = aws_subnet.private_subnet1.id
+  tags = {
+    Name = "gw NAT"
+  }
+
+  depends_on = [aws_internet_gateway.ig_gw]
 }
 
