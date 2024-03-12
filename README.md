@@ -22,9 +22,9 @@ Happy coding 😊
 
 ## 🛠 Lab
 
-<p align="left">[ ] 1 VPC</p>
-<p align="left">[ ] 2 Public Subnets with routing to the Internet Gateway</p>
-<p align="left">[ ] 2 Private Subnets with routing to the NAT Gateway</p>
+<p align="left">[ X ] 1 VPC</p>
+<p align="left">[ X ] 2 Public Subnets with routing to the Internet Gateway</p>
+<p align="left">[ X ] 2 Private Subnets with routing to the NAT Gateway</p>
 <p align="left">[ ] 1 S3 Gateway Endpoint and add to the Public and Private Route Tables</p>
 <p align="left">[ ] 1 Application Load Balancer with Listener Port 80, Target group port 80</p>
 <p align="left">[ ] 1 Launch Template for EC2 instance – use Amazon Linux AMI</p>
