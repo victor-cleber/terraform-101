@@ -20,7 +20,9 @@ Before you start, you should prepare your environment:
 
 Happy coding 😊
 
-## 🛠 Lab
+## 📝 Lab
+
+![plot](./diagrams/aws_diagram.png)
 
 <p align="left">[ X ] 1 VPC</p>
 <p align="left">[ X ] 2 Public Subnets with routing to the Internet Gateway</p>
@@ -49,7 +51,7 @@ Linux (Debian)
   apt install nginx
   sudo ufw allow 'Nginx HTTP'  
 ```
-## :memo: License
+##  🔗 License
 
 This project is under an GNU General Public License v3.0. See more details in [LICENSE](LICENSE) for more information.
 
