@@ -1,1 +1,10 @@
 
+name: hello-world
+on: push
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: baby-step
+        run: echo "Hello World"
+

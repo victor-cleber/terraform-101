@@ -1,8 +1,24 @@
-name: hello-world
-on: push
+name: Terraform CI/CD
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  my-job:
+  terraform:
     runs-on: ubuntu-latest
+
     steps:
-      - name: baby-step
-        run: echo "Hello World"
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Validate
+      run: terraform validate
