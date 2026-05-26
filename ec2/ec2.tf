@@ -31,13 +31,14 @@ data "aws_ami" "windows_2022" {
 resource "aws_security_group" "allow_rdp" {
   name        = "allow_rdp"
   description = "Allow RDP traffic"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_default_vpc.default.id
 
   ingress {
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # use your IP address
+    from_port = 3389
+    to_port   = 3389
+    protocol  = "tcp"
+    #cidr_blocks = [local.my_ip_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -48,12 +49,27 @@ resource "aws_security_group" "allow_rdp" {
   }
 }
 
+# 1. Adopt the Default VPC
+resource "aws_default_vpc" "default" {
+  tags = {
+    Name = "Default VPC"
+  }
+}
+
+resource "aws_default_subnet" "default_az1" {
+  availability_zone = "sa-east-1a" # Change to your preferred AZ
+
+  tags = {
+    Name = "Default Subnet for sa-east-1a"
+  }
+}
+
 # Create EC2 Windows instance
 resource "aws_instance" "windows_instance" {
   ami                         = data.aws_ami.windows_2022.id
   instance_type               = "t3.medium"
   key_name                    = aws_key_pair.windows_kp.key_name
-  subnet_id                   = var.subnet_id
+  subnet_id                   = aws_default_subnet.default_az1.id
   vpc_security_group_ids      = [aws_security_group.allow_rdp.id]
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   associate_public_ip_address = true
@@ -69,6 +85,19 @@ resource "aws_instance" "windows_instance" {
   tags = {
     Name = "Windows IRPF"
   }
+}
+output "password_data" {
+  value = aws_instance.windows_instance.password_data
+}
+
+data "http" "my_ip" {
+  #url = "https://ifconfig.me/ip"
+  url = "https://ipv4.icanhazip.com"
+}
+
+locals {
+  # Add /32 CIDR suffix for a single IP address rule
+  my_ip_cidr = "${chomp(data.http.my_ip.response_body)}/32"
 }
 
 data "aws_iam_policy_document" "instance-assume-role-policy" {

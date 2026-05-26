@@ -9,10 +9,10 @@ variable "instance_type" {
 }
 
 
-variable "vpc_id" {
-  default = "vpc-02a6a73e00a88ad3b"
-}
+# variable "vpc_id" {
+#   default = "vpc-02a6a73e00a88ad3b"
+# }
 
-variable "subnet_id" {
-  default = "subnet-09c644ae96e93ed9e"
-}
+# variable "subnet_id" {
+#   default = "subnet-09c644ae96e93ed9e"
+# }
